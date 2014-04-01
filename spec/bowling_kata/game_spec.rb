@@ -6,10 +6,20 @@ describe Game do
   subject { Game.new [player] }
 
   describe "#score" do
-    it "is 20 after 2 standard frames" do
-      rolls = [2, 4, 6, 2]
-      player.stub(:rolls).and_return(rolls)
-      expect(subject.score[player]).to eq(14)
+    context "no special rolls" do
+      it "is 20 after 2 standard frames" do
+        rolls = [2, 4, 6, 2]
+        player.stub(:rolls).and_return(rolls)
+        expect(subject.score[player]).to eq(14)
+      end
+    end
+
+    context "with a spare" do
+      it "adds the doubles the next roll" do
+        rolls = [2, 8, 3, 4]
+        player.stub(:rolls).and_return(rolls)
+        expect(subject.score[player]).to eq(10+3+7)
+      end
     end
   end
 end
